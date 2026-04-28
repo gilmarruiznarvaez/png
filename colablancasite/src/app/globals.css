@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   COLABLANCA PLAZA · CSS variables derivadas de tokens.ts
+   Permiten usar la paleta en CSS Modules y en clamp()/calc() runtime.
+   ========================================================================= */
+:root {
+  --color-ink: #262626;
+  --color-ink-deep: #0f0f0f;
+  --color-ink-pure: #000000;
+  --color-paper: #ffffff;
+  --color-paper-muted: #a8a8a8;
+  --color-paper-dim: #6b6b6b;
+  --color-gold: #ffbd59;
+  --color-gold-deep: #e5a949;
+  --color-neon: #fff855;
+  --color-neon-dim: rgba(255, 248, 85, 0.5);
+  --color-surface: #1a1a1a;
+  --color-border: #333333;
+  --color-border-strong: #4a4a4a;
+
+  --ease-cinema: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1200ms;
+
+  /* Fix iOS Safari 100vh bug · usado en hero/CTA Final */
+  --vh: 1vh;
+  --viewport-h: 100vh;
+}
+
+/* Soporte de unidades dinámicas modernas */
+@supports (height: 100dvh) {
+  :root {
+    --viewport-h: 100dvh;
+  }
+}
+
+/* =========================================================================
+   Reset / Base
+   ========================================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis se encarga del smooth scroll */
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Scroll lock cuando Lenis está deshabilitado (loader, mobile menu) */
+body[data-scroll-locked="true"] {
+  overflow: hidden;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* =========================================================================
+   Accesibilidad
+   ========================================================================= */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-neon);
+  color: var(--color-ink);
+  font-weight: 700;
+  border-radius: 6px;
+  transform: translateY(-200%);
+  transition: transform 200ms var(--ease-out-quint);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--color-paper);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-neon);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Cursor magnético: ocultamos el cursor nativo solo en pointer:fine */
+@media (pointer: fine) {
+  body[data-cursor="custom"],
+  body[data-cursor="custom"] * {
+    cursor: none;
+  }
+}
+
+/* =========================================================================
+   Reduced motion · respeta accesibilidad sin destruir el sitio
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================================
+   Utilidades editoriales reusables
+   ========================================================================= */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Tracking premium para eyebrows/tags */
+  .tracking-eyebrow {
+    letter-spacing: 0.18em;
+  }
+
+  /* Mask reveal vertical (aplicado a hijos con stagger) */
+  .mask-reveal {
+    overflow: hidden;
+    display: inline-block;
+  }
+  .mask-reveal > * {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  /* Glow neón aplicado como filter (más performante que box-shadow expansivo) */
+  .glow-neon {
+    filter: drop-shadow(0 0 12px rgba(255, 248, 85, 0.55));
+  }
+  .glow-gold {
+    filter: drop-shadow(0 0 12px rgba(255, 189, 89, 0.55));
+  }
+
+  /* Sección base */
+  .section-padding {
+    padding-block: clamp(5rem, 10vw, 9rem);
+  }
+  .section-padding-lg {
+    padding-block: clamp(7rem, 14vw, 14rem);
+  }
+
+  /* Container con guttering generoso */
+  .container-edge {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    max-width: 92rem;
+  }
+
+  /* Líneas decorativas neón */
+  .hairline-neon {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-neon) 20%,
+      var(--color-neon) 80%,
+      transparent 100%
+    );
+    height: 1px;
+  }
+}
+
+/* =========================================================================
+   Scrollbar discreto (no se ve casi, pero si aparece va con la marca)
+   ========================================================================= */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
