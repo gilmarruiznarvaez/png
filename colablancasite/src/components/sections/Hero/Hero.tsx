@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SplitText } from "@/components/motion/SplitText";
@@ -18,14 +19,42 @@ const MARQUEE_ITEMS = [
 ];
 
 export function Hero() {
+  const [videoReady, setVideoReady] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+
   return (
     <section className="relative overflow-hidden bg-ink-deep" id="contenido">
-      {/* Fondo · placeholder con gradient cinemático mientras llega el video */}
+      {/* Gradient base · siempre visible, queda como fallback si no hay video */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(120%_70%_at_50%_0%,#1a1a1a_0%,#0f0f0f_50%,#000_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,189,89,0.08)_0%,transparent_40%,rgba(255,248,85,0.05)_100%)]" />
         <div className="absolute inset-0 opacity-30 mix-blend-screen [background-image:radial-gradient(circle_at_20%_30%,rgba(255,189,89,0.25)_0%,transparent_40%),radial-gradient(circle_at_80%_70%,rgba(255,248,85,0.2)_0%,transparent_45%)]" />
       </div>
+
+      {/* Video hero · auto-activa cuando dropees /videos/hero-main.mp4 */}
+      {!videoFailed && (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/images/hero/hero-main.jpg"
+          onCanPlay={() => setVideoReady(true)}
+          onError={() => setVideoFailed(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+            videoReady ? "opacity-50" : "opacity-0"
+          }`}
+        >
+          <source src="/videos/hero-main.mp4" type="video/mp4" />
+        </video>
+      )}
+
+      {/* Velo oscuro sobre video para legibilidad de texto */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/70 to-ink-deep/40"
+      />
 
       <div className="container-edge relative flex min-h-[calc(var(--viewport-h)*0.95)] flex-col justify-end pb-24 pt-40 lg:min-h-[var(--viewport-h)]">
         <Eyebrow tone="neon" className="text-neon">

@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 interface MarqueeTrackProps {
   children: ReactNode;
   speed?: number;
-  pauseOnHover?: boolean;
   className?: string;
   reverse?: boolean;
 }
@@ -15,7 +14,6 @@ interface MarqueeTrackProps {
 export function MarqueeTrack({
   children,
   speed = 40,
-  pauseOnHover = true,
   className,
   reverse = false,
 }: MarqueeTrackProps) {
@@ -28,10 +26,7 @@ export function MarqueeTrack({
     );
   }
   return (
-    <div
-      className={`group overflow-hidden whitespace-nowrap ${className ?? ""}`}
-      data-pause={pauseOnHover ? "true" : "false"}
-    >
+    <div className={`group overflow-hidden whitespace-nowrap ${className ?? ""}`}>
       <div
         className="inline-flex min-w-full gap-12 will-change-transform group-hover:[animation-play-state:paused]"
         style={{
