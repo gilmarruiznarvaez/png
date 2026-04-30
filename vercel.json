@@ -1,7 +1,3 @@
 {
-  "buildCommand": "cd colablancasite && npm install && npm run build",
-  "outputDirectory": "colablancasite/.next",
-  "installCommand": "cd colablancasite && npm install",
-  "framework": "nextjs",
-  "rootDirectory": "colablancasite"
+  "framework": "nextjs"
 }
