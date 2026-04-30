@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Antonio, Poppins } from "next/font/google";
 import "./globals.css";
+import { LenisProvider } from "@/components/providers/LenisProvider";
+import { Cursor } from "@/components/chrome/Cursor";
+import { Loader } from "@/components/chrome/Loader";
+import { Navbar } from "@/components/chrome/Navbar";
+import { buildSchema } from "@/lib/schema";
 
 const antonio = Antonio({
   subsets: ["latin"],
@@ -56,10 +61,7 @@ export const metadata: Metadata = {
     description:
       "Seis servicios premium. Una sola dirección. Cero compromisos.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -78,11 +80,20 @@ export default function RootLayout({
       className={`${antonio.variable} ${poppins.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: buildSchema() }}
+        />
+      </head>
       <body className="bg-ink text-paper font-body antialiased selection:bg-neon selection:text-ink">
         <a href="#contenido" className="skip-link">
           Saltar al contenido
         </a>
-        {children}
+        <Loader />
+        <Cursor />
+        <Navbar />
+        <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
   );
