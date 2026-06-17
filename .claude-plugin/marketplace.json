@@ -1,0 +1,17 @@
+{
+  "name": "colablanca-ads",
+  "owner": {
+    "name": "COLABLANCA PLAZA"
+  },
+  "metadata": {
+    "description": "Marketplace local con herramientas de publicidad y growth para COLABLANCA PLAZA.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "colablanca-ads",
+      "source": "./plugins/colablanca-ads",
+      "description": "Genera copy de anuncios, landing pages de campaña, optimiza ROAS y publica en Meta Ads — todo con el branding de COLABLANCA PLAZA."
+    }
+  ]
+}
