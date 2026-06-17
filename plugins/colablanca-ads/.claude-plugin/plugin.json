@@ -1,0 +1,9 @@
+{
+  "name": "colablanca-ads",
+  "description": "Herramientas de publicidad y growth para COLABLANCA PLAZA: copy de anuncios, landing pages de campaña, optimización de ROAS y publicación en Meta Ads.",
+  "version": "0.1.0",
+  "author": {
+    "name": "COLABLANCA PLAZA"
+  },
+  "keywords": ["ads", "marketing", "meta-ads", "roas", "copywriting", "nextjs"]
+}
